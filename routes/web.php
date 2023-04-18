@@ -3,6 +3,8 @@
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Site\SiteController;
+use App\Http\Controllers\Admin\RoleController;
+use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\Admin\AdminController;
 use App\Http\Controllers\Admin\ClientController;
 use App\Http\Controllers\Admin\SliderController;
@@ -41,6 +43,12 @@ Route::prefix('admin/')->name('admin.')->middleware('auth','checkAdmin')->group(
     Route::delete('clients/{id}/forcedelete', [ClientController::class, 'forcedelete'])->name('clients.forcedelete');
     Route::resource('clients',ClientController::class);
 
+    //users
+    Route::resource('users',UserController::class);
+
+    //roles
+    Route::resource('roles',RoleController::class);
+
 });
 
 // Site Routes
@@ -60,7 +68,3 @@ Route::view('not-allowed', 'not-allowed');
 Auth::routes();
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 
-
-Route::get('/adminn',function(){
-    return view('admin.indexx');
-})->middleware('auth','role:admin')->name('admin.indexx');
